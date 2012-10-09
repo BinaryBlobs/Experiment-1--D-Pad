@@ -23,6 +23,8 @@
 		DFFFC3001623AC7D00FAA2B1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DFFFC2DB1623AC7D00FAA2B1 /* Foundation.framework */; };
 		DFFFC3081623AC7D00FAA2B1 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = DFFFC3061623AC7D00FAA2B1 /* InfoPlist.strings */; };
 		DFFFC30B1623AC7D00FAA2B1 /* D_PadTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DFFFC30A1623AC7D00FAA2B1 /* D_PadTests.m */; };
+		DFFFC31F1623AE7400FAA2B1 /* D-Knob.png in Resources */ = {isa = PBXBuildFile; fileRef = DFFFC31D1623AE7400FAA2B1 /* D-Knob.png */; };
+		DFFFC3201623AE7400FAA2B1 /* D-Ring.png in Resources */ = {isa = PBXBuildFile; fileRef = DFFFC31E1623AE7400FAA2B1 /* D-Ring.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -58,6 +60,9 @@
 		DFFFC3071623AC7D00FAA2B1 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		DFFFC3091623AC7D00FAA2B1 /* D_PadTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = D_PadTests.h; sourceTree = "<group>"; };
 		DFFFC30A1623AC7D00FAA2B1 /* D_PadTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = D_PadTests.m; sourceTree = "<group>"; };
+		DFFFC31B1623AD0200FAA2B1 /* D-PAD.psd */ = {isa = PBXFileReference; lastKnownFileType = file; name = "D-PAD.psd"; path = "Images/PSD Files/D-PAD.psd"; sourceTree = SOURCE_ROOT; };
+		DFFFC31D1623AE7400FAA2B1 /* D-Knob.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "D-Knob.png"; path = "Images/images/D-Knob.png"; sourceTree = SOURCE_ROOT; };
+		DFFFC31E1623AE7400FAA2B1 /* D-Ring.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "D-Ring.png"; path = "Images/images/D-Ring.png"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -130,6 +135,7 @@
 		DFFFC2E01623AC7D00FAA2B1 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				DFFFC3181623ACB500FAA2B1 /* Images */,
 				DFFFC2E11623AC7D00FAA2B1 /* D-Pad-Info.plist */,
 				DFFFC2E21623AC7D00FAA2B1 /* InfoPlist.strings */,
 				DFFFC2E51623AC7D00FAA2B1 /* main.m */,
@@ -158,6 +164,24 @@
 				DFFFC3061623AC7D00FAA2B1 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		DFFFC3181623ACB500FAA2B1 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				DFFFC31D1623AE7400FAA2B1 /* D-Knob.png */,
+				DFFFC31E1623AE7400FAA2B1 /* D-Ring.png */,
+				DFFFC31A1623ACF400FAA2B1 /* PSD Files */,
+			);
+			name = Images;
+			sourceTree = "<group>";
+		};
+		DFFFC31A1623ACF400FAA2B1 /* PSD Files */ = {
+			isa = PBXGroup;
+			children = (
+				DFFFC31B1623AD0200FAA2B1 /* D-PAD.psd */,
+			);
+			name = "PSD Files";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -237,6 +261,8 @@
 				DFFFC2EE1623AC7D00FAA2B1 /* Default@2x.png in Resources */,
 				DFFFC2F01623AC7D00FAA2B1 /* Default-568h@2x.png in Resources */,
 				DFFFC2F31623AC7D00FAA2B1 /* MainStoryboard.storyboard in Resources */,
+				DFFFC31F1623AE7400FAA2B1 /* D-Knob.png in Resources */,
+				DFFFC3201623AE7400FAA2B1 /* D-Ring.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -448,6 +474,7 @@
 				DFFFC3101623AC7D00FAA2B1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		DFFFC3111623AC7D00FAA2B1 /* Build configuration list for PBXNativeTarget "D-PadTests" */ = {
 			isa = XCConfigurationList;
@@ -456,6 +483,7 @@
 				DFFFC3131623AC7D00FAA2B1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
