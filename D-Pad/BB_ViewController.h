@@ -8,12 +8,18 @@
 
 #import <UIKit/UIKit.h>
 
+@class BB_DpadView;
+
 @interface BB_ViewController : UIViewController
 {
     IBOutlet UIImageView *knobView;
     IBOutlet UIImageView *ringView;
-
-    CGPoint ptStart;
+    
+    BB_DpadView *dPad;
+    
 }
+
+@property BOOL only_4way;
+@property BOOL only_8way;
 
 @end

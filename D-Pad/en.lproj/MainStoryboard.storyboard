@@ -12,25 +12,25 @@
                         <rect key="frame" x="0.0" y="20" width="320" height="548"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="D-Knob.png" translatesAutoresizingMaskIntoConstraints="NO" id="51E-fr-F6u">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" image="D-Knob.png" translatesAutoresizingMaskIntoConstraints="NO" id="51E-fr-F6u">
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="36" id="ssI-eU-Gy8"/>
-                                    <constraint firstAttribute="width" constant="36" id="x8Y-UG-BDQ"/>
+                                    <constraint firstAttribute="width" constant="26" id="iWV-MG-kiJ"/>
+                                    <constraint firstAttribute="height" constant="26" id="l5O-Gc-5iJ"/>
                                 </constraints>
                             </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" image="D-Ring.png" translatesAutoresizingMaskIntoConstraints="NO" id="HD7-sn-tb7">
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="100" id="FPh-sa-iFB"/>
-                                    <constraint firstAttribute="width" constant="100" id="ZeB-An-cQz"/>
+                                    <constraint firstAttribute="height" constant="80" id="Sd0-Uf-I9F"/>
+                                    <constraint firstAttribute="width" constant="80" id="Y3z-na-gfO"/>
                                 </constraints>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="HD7-sn-tb7" firstAttribute="centerX" secondItem="3" secondAttribute="centerX" type="default" id="GTf-Cv-TYk"/>
-                            <constraint firstItem="51E-fr-F6u" firstAttribute="top" secondItem="3" secondAttribute="top" constant="232" id="dOK-Oa-2jS"/>
-                            <constraint firstItem="51E-fr-F6u" firstAttribute="leading" secondItem="HD7-sn-tb7" secondAttribute="leading" type="default" id="so7-bx-9H4"/>
-                            <constraint firstItem="HD7-sn-tb7" firstAttribute="centerY" secondItem="3" secondAttribute="centerY" type="default" id="v9Q-yC-9vh"/>
+                            <constraint firstItem="51E-fr-F6u" firstAttribute="centerY" secondItem="HD7-sn-tb7" secondAttribute="centerY" type="default" id="54j-cW-6Nf"/>
+                            <constraint firstItem="51E-fr-F6u" firstAttribute="centerX" secondItem="3" secondAttribute="centerX" type="default" id="MZD-hT-IQa"/>
+                            <constraint firstItem="51E-fr-F6u" firstAttribute="centerY" secondItem="3" secondAttribute="centerY" type="default" id="f56-d3-fyR"/>
+                            <constraint firstItem="HD7-sn-tb7" firstAttribute="centerX" secondItem="51E-fr-F6u" secondAttribute="centerX" type="default" id="kOG-Y5-Avq"/>
                         </constraints>
                     </view>
                     <connections>

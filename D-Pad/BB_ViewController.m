@@ -8,13 +8,23 @@
 
 #import "BB_ViewController.h"
 
+#import "BB_DpadView.h"
+
+
 @interface BB_ViewController ()
+{
+    UIImageView *knobView2;
+    UIImageView *ringView2;
 
-
+    CGPoint ptStart;
+}
 @end
+
 
 @implementation BB_ViewController
 
+@synthesize only_4way;
+@synthesize only_8way;
 
 //--------------------------------------------------------------------------------------------------------------
 
@@ -23,10 +33,14 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
     
-    CGPoint middle = [self.view center];
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     
-    [knobView setCenter: middle];
-    [ringView setCenter: middle];    
+    dPad = [[BB_DpadView alloc] initWithFrame: CGRectMake(20, 20, 80, 80)];
+  
+    [dPad setMode: BB_DpadViewMode8way];
+    
+    [self.view addSubview: dPad];
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 }
 //--------------------------------------------------------------------------------------------------------------
 
@@ -41,9 +55,7 @@ CGFloat AngleBetweenTwoPoints(CGPoint point1, CGPoint point2)
 {
     CGFloat dx = point2.x - point1.x;
     CGFloat dy = point2.y - point1.y;
-    
-  //  CGFloat angle = atan(dy / dx);// * 180 / M_PI;
-  
+      
     CGFloat rads  = atan2( dy, dx); // Range: 0 to 2*pi radians
     CGFloat angle = fmodf(rads, (2*M_PI) );// + M_PI/2;  // +PI/2 to offset (always) to 12 O'Clock
     
@@ -57,7 +69,7 @@ CGFloat DistanceBetweenTwoPoints(CGPoint point1,CGPoint point2)
     CGFloat dx = point2.x - point1.x;
     CGFloat dy = point2.y - point1.y;
     
-    return sqrt(dx*dx + dy*dy );
+    return sqrt( dx*dx + dy*dy );
 };
 
 //--------------------------------------------------------------------------------------------------------------
@@ -66,7 +78,8 @@ CGFloat DistanceBetweenTwoPoints(CGPoint point1,CGPoint point2)
 {
 	UITouch *touch = [[event allTouches] anyObject];
 	CGPoint point = [touch locationInView:touch.view];
-    
+        
+    knobView.alpha = 1.0;
     
    // CGRect rcRing = ringView.bounds;
     double radius = ringView.bounds.size.width/2;
@@ -90,37 +103,22 @@ CGFloat DistanceBetweenTwoPoints(CGPoint point1,CGPoint point2)
 {
 	[self touchesBegan:touches withEvent:event];
 }
+
 //--------------------------------------------------------------------------------------------------------------
 
-//- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
-//{
-//    UITouch *touch = [touches anyObject];
-//    CGPoint ptEnd = [touch locationInView:self.view];
-////    CGPoint delta = ptStart - ptEnd;
-////    
-////    CGPoint ptMove = knobView.center - delta;
-//    
-//    CGPoint delta,ptMove;
-//    
-//    delta  = CGPointMake( ptStart.x - ptEnd.x,         ptStart.y - ptEnd.y);
-//    ptMove = CGPointMake( knobView.center.x - delta.x, knobView.center.y - delta.y);
-//        
-//    [knobView setCenter: ptMove];
-//    
-////    knobView.center.x = ptMove.x - delta.x;
-////    knobView.center.y = ptMove.y - delta.y;
-//    
-//    ptStart = ptEnd;
-//}
-////--------------------------------------------------------------------------------------------------------------
-//
-//- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
-//{
-//    UITouch *touch = [touches anyObject];
-//    CGPoint     pt = [touch locationInView:self];
-//    
-//    ptStart = pt;
-//}
+-(void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
+{
+	//knobView.center = ringView.center;
+    
+    [UIView beginAnimations : @"Centering" context:nil];
+    [UIView setAnimationDuration: 0.15];
+    [UIView setAnimationBeginsFromCurrentState:FALSE];
+    
+    knobView.center = ringView.center;
+    knobView.alpha  = 0.55;
+        
+    [UIView commitAnimations];
+}
 
 //--------------------------------------------------------------------------------------------------------------
 @end
