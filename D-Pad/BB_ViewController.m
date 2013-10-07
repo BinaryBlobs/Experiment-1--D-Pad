@@ -2,47 +2,146 @@
 //  BB_ViewController.m
 //  D-Pad
 //
-//  Created by Hugh on 10/8/12.
+//  Created by Binary Blobs on 10/8/12.
 //  Copyright (c) 2012 Binary Blobs. All rights reserved.
 //
+//  Permission is hereby granted, free of charge, to any person obtaining a copy
+//  of this software and associated documentation files (the "Software"), to deal
+//  in the Software without restriction, including without limitation the rights
+//  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+//  copies of the Software, and to permit persons to whom the Software is
+//  furnished to do so, subject to the following conditions:
+//
+//  The above copyright notice and this permission notice shall be included in
+//  all copies or substantial portions of the Software.
+//
+//  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+//  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+//  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+//  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+//  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+//  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+//  THE SOFTWARE.
+// ================================================================================================
 
 #import "BB_ViewController.h"
-
-#import "BB_DpadView.h"
 
 
 @interface BB_ViewController ()
 {
-    UIImageView *knobView2;
-    UIImageView *ringView2;
-
-    CGPoint ptStart;
+    CGFloat knobAngle;
+    CGFloat knobPower;
 }
 @end
 
 
 @implementation BB_ViewController
 
-@synthesize only_4way;
-@synthesize only_8way;
-
 //--------------------------------------------------------------------------------------------------------------
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
-    
-    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    
-    dPad = [[BB_DpadView alloc] initWithFrame: CGRectMake(20, 20, 80, 80)];
+        
+    dPad = [[BB_DpadView alloc] initWithFrame: CGRectMake(20,200, 80,80)];
   
-    [dPad setMode: BB_DpadViewMode8way];
+    [dPad setMode:     BB_DpadMode_Analog];
+    [dPad setDelegate: self];
     
     [self.view addSubview: dPad];
-    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+}
+
+#pragma mark GUI Updates...
+//--------------------------------------------------------------------------------------------------------------
+
+- (void) updateBall
+{
+    CGPoint ptBall = ballView.center;
+    
+    float dx = knobPower * cos( DEGREES_TO_RADIANS(knobAngle) );
+    float dy = knobPower * sin( DEGREES_TO_RADIANS(knobAngle) );
+    
+    ptBall.x += dx;
+    ptBall.y += dy;
+
+    ballView.center = ptBall;
+}
+
+//--------------------------------------------------------------------------------------------------------------
+
+- (void) updateCoords:(CGPoint) point   // normalized
+{
+    //    NSLog(@" updateCoords:  %2.1f, %2.1f", point.x, point.y);
+    
+    xyValue.text = [NSString stringWithFormat: @"%2.1f, %2.1f", point.x, point.y];
+}
+
+//--------------------------------------------------------------------------------------------------------------
+
+// Mode Button Pressed...
+//
+- (IBAction)buttonPressed:(id)sender
+{
+    BB_DpadMode mode = [dPad mode];
+    
+    mode++;
+    
+    if(mode == BB_DpadMode_COUNT)
+    {
+        mode = 0;
+    }
+    
+    [dPad setMode: mode];
+}
+
+#pragma mark <BB_DpadDelegate> Delegate Methods
+//--------------------------------------------------------------------------------------------------------------
+
+- (void) updateMode: (BB_DpadMode)  mode
+{
+    switch(mode)
+    {
+        case BB_DpadMode_8way:
+            [modeButton setTitle: @"8 Way"  forState: UIControlStateNormal];
+            break;
+            
+        case BB_DpadMode_4way:
+            [modeButton setTitle: @"4 Way"  forState: UIControlStateNormal];
+            break;
+            
+        case BB_DpadMode_Analog:
+            [modeButton setTitle: @"Analog" forState: UIControlStateNormal];
+            break;
+            
+        default:
+            break;
+    }
 }
 //--------------------------------------------------------------------------------------------------------------
+
+- (void) updateAngle:(CGFloat) degrees
+{
+    //    NSLog(@" updateAngle:  %f  degrees", degrees);
+    
+    knobAngle = degrees;
+    
+    angleValue.text = [NSString stringWithFormat: @"%3.1f ˚", degrees];
+    
+    [self updateBall];
+}
+//--------------------------------------------------------------------------------------------------------------
+
+- (void) updatePower:(CGFloat) power    // normalized [0.0 <-> 1.0]
+{
+    //NSLog(@" updatePower:  %f  degrees", power);
+    
+    knobPower = power;
+    
+    powerValue.text = [NSString stringWithFormat: @"%2.2f", power];
+}
+//--------------------------------------------------------------------------------------------------------------
+
+#pragma mark Clean Up
 
 - (void)didReceiveMemoryWarning
 {
@@ -51,74 +150,18 @@
 }
 //--------------------------------------------------------------------------------------------------------------
 
-CGFloat AngleBetweenTwoPoints(CGPoint point1, CGPoint point2)
+- (void)viewDidUnload
 {
-    CGFloat dx = point2.x - point1.x;
-    CGFloat dy = point2.y - point1.y;
-      
-    CGFloat rads  = atan2( dy, dx); // Range: 0 to 2*pi radians
-    CGFloat angle = fmodf(rads, (2*M_PI) );// + M_PI/2;  // +PI/2 to offset (always) to 12 O'Clock
+    modeButton = nil;
+    xyValue    = nil;
+    angleValue = nil;
+    powerValue = nil;
+    modeButton = nil;
+    ballView   = nil;
     
-    return angle;
-};
-
-//--------------------------------------------------------------------------------------------------------------
-
-CGFloat DistanceBetweenTwoPoints(CGPoint point1,CGPoint point2)
-{
-    CGFloat dx = point2.x - point1.x;
-    CGFloat dy = point2.y - point1.y;
-    
-    return sqrt( dx*dx + dy*dy );
-};
-
-//--------------------------------------------------------------------------------------------------------------
-
--(void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
-{
-	UITouch *touch = [[event allTouches] anyObject];
-	CGPoint point = [touch locationInView:touch.view];
-        
-    knobView.alpha = 1.0;
-    
-   // CGRect rcRing = ringView.bounds;
-    double radius = ringView.bounds.size.width/2;
-    
-    CGFloat distance = DistanceBetweenTwoPoints(ringView.center, point);
-    CGFloat angle    = AngleBetweenTwoPoints(ringView.center,    point);
-    
-    if(distance > radius)
-    {
-        //inside the circle        
-        point.x = ringView.center.x + radius * cos(angle);
-        point.y = ringView.center.y + radius * sin(angle);
-    }
-        
-	knobView.center = point;
+    [super viewDidUnload];
 }
 
 //--------------------------------------------------------------------------------------------------------------
 
--(void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
-{
-	[self touchesBegan:touches withEvent:event];
-}
-
-//--------------------------------------------------------------------------------------------------------------
-
--(void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
-{
-	//knobView.center = ringView.center;
-    
-    [UIView beginAnimations : @"Centering" context:nil];
-    [UIView setAnimationDuration: 0.15];
-    [UIView setAnimationBeginsFromCurrentState:FALSE];
-    
-    knobView.center = ringView.center;
-    knobView.alpha  = 0.55;
-        
-    [UIView commitAnimations];
-}
-
-//--------------------------------------------------------------------------------------------------------------
 @end
